@@ -1,23 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
+
+		<a className="login" href="https://reactjs.org">Sign Up</a>
+		<a className="login" href="https://reactjs.org">Login</a>
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React Here
-        </a>
+
+        <h1>Portfolio Watch</h1>
+        <img src={"https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/05/04/15/bitcoin-price-latest-news-update.jpg?width=1000&height=614&fit=bounds&format=pjpg&auto=webp&quality=70&crop=16:9,offset-y0.5logo"} className="HeaderImg" alt="Header" />
       </header>
     </div>
   );
