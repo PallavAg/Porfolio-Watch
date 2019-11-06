@@ -8,7 +8,7 @@ class Home extends Component {
         return (
             <div>
                 <span>{this.formatCount()}</span>
-                <button>Incrementt</button>
+                <button>Incrementtt</button>
             </div>
         );
     }
