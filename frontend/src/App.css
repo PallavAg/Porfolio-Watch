@@ -1,28 +1,28 @@
 .App {
-    background-color: #282c38;
+  background-color: #282c38;
 }
 
 .HeaderImg {
-    height: 40vmin;
-    border-radius: 10px;
-    box-shadow: 10px 10px 8px rgba(19, 19, 19, 0.8);
+  height: 40vmin;
+  border-radius: 10px;
+  box-shadow: 10px 10px 8px rgba(19, 19, 19, 0.8);
 }
 
 .App-header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-link {
-    color: #09d3ac;
+  color: #09d3ac;
 }
 
 .login {
-    color: #09d3ac;
-    padding: 5px;
-    font-size: calc(5px + 2vmin);
+  color: #09d3ac;
+  padding: 5px;
+  font-size: calc(5px + 2vmin);
 }
