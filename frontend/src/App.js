@@ -14,7 +14,7 @@ class App extends Component {
 
   placeBuy = () => {
     let thePrice = this.state.priceInput;
-    if (!isNaN(thePrice) && thePrice.trim.length !== 0) {
+    if (!isNaN(thePrice) && thePrice.length !== 0) {
       alert("Successfully placed order of $" + thePrice + " BTC!");
     } else {
       alert("Please enter a number!");
