@@ -1,28 +1,85 @@
-.App {
+html {
   background-color: #282c38;
 }
 
-.HeaderImg {
-  height: 40vmin;
-  border-radius: 10px;
-  box-shadow: 10px 10px 8px rgba(19, 19, 19, 0.8);
-}
-
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.App {
+  background-color: #282c38;
 }
 
 .App-link {
   color: #09d3ac;
 }
 
+.header {
+  padding-top: 2%;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.header h1 {
+  color: white;
+  font-size: 2em;
+  font-weight: bolder;
+}
+
+.HeaderImg {
+  height: 35vmin;
+  border-radius: 10px;
+  box-shadow: 10px 10px 8px rgba(19, 19, 19, 0.8);
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
 .login {
   color: #09d3ac;
   padding: 5px;
   font-size: calc(5px + 2vmin);
+  text-underline-position: below;
+}
+
+.navbar-brand {
+  font-size: 1.2em !important;
+}
+
+.theNav {
+  box-shadow: 0px 3px 24px 2px rgba(0, 0, 0, 0.62);
+  background: linear-gradient(to right, rgba(73, 155, 234, 1) 0%, rgba(51, 18, 235, 1) 100%);
+  font-size: 1.3em;
+}
+
+.tempWhite {
+  color: white !important;
+}
+
+.priceView {
+  padding-top: 2%;
+  min-height: 45vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(5px + 2vmin);
+}
+
+.priceView h1 {
+  color: white;
+  font-size: 2.5em;
+  font-weight: lighter;
+  padding-bottom: 1%;
+}
+
+.btcEnter {
+  margin-bottom: 5%;
+}
+
+.placeOrder {
+  font-size: 5em;
+}
+
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
 }
