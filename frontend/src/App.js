@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Container, Card, Button } from "react-bootstrap";
 import "./App.css";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./components/login";
+import Register from "./components/register";
+import Home from "./components/home";
+
+import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
   state = {
@@ -20,6 +27,7 @@ class App extends Component {
       alert("Please enter a number!");
     }
   };
+
   placeSell = () => {};
 
   navbar = () => {
@@ -32,12 +40,12 @@ class App extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"></Nav>
           <Nav>
-            <Nav.Link className="tempWhite" href="#home">
+            <Nav.Link className="tempWhite" href="/">
               Home
             </Nav.Link>
             <Nav.Link href="#orders">Orders</Nav.Link>
-            <Nav.Link href="#login">Login</Nav.Link>
-            <Nav.Link href="#signup">Sign Up</Nav.Link>
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/register">Sign Up</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -72,10 +80,49 @@ class App extends Component {
     );
   };
 
+  registerRoutes = () => {
+    return (
+      <Router>
+        <div className="auth-box">
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path="/">
+              {/* <Container>
+                <Card>
+                  <Card.Body>
+                    <LinkContainer to="/login">
+                      <Button variant="primary" size="lg" block>
+                        Login
+                      </Button>
+                    </LinkContainer>
+                    <LinkContainer to="/register">
+                      <Button variant="primary" size="lg" block>
+                        Register
+                      </Button>
+                    </LinkContainer>
+                  </Card.Body>
+                </Card>
+              </Container> */}
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    );
+  };
+
   render() {
     return (
       <div className="App">
         {this.navbar()}
+        {this.registerRoutes()}
         <header className="header">
           <h1 className="">Crypto Watch</h1>
           <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
