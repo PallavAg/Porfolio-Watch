@@ -82,11 +82,22 @@ class App extends Component {
     );
   };
 
+  getMoviesFromApiAsync = () => {
+    return fetch("https://api.coindesk.com/v1/bpi/currentprice.json")
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson.rate;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   setLoginStatus = loggedIn => {
     if (loggedIn) {
-      this.setState({ loginStatus: "Logout", signUpStatus: "Sign Up" });
+      //this.setState({ loginStatus: "Logout", signUpStatus: "Sign Up" });
     } else {
-      this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
+      //this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
     }
   };
 
@@ -140,6 +151,7 @@ class App extends Component {
 
         <div className="priceView">
           <h1>Current BTC Price: {this.state.price}</h1>
+          {console.log(this.getMoviesFromApiAsync())}
           {this.formInput()}
         </div>
       </div>
