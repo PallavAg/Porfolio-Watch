@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
+import axios from "axios";
 
 import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
   state = {
-    price: "$8,782",
+    price: "",
     priceInput: "",
     loginStatus: "Login/Logout",
     signUpStatus: "Sign Up"
@@ -82,11 +83,14 @@ class App extends Component {
     );
   };
 
-  getMoviesFromApiAsync = () => {
-    return fetch("https://api.coindesk.com/v1/bpi/currentprice.json")
-      .then(response => response.json())
+  componentDidMount = async () => {
+    await axios
+      .get("https://api.coindesk.com/v1/bpi/currentprice.json")
       .then(responseJson => {
-        return responseJson.rate;
+        //console.log(responseJson);
+        responseJson = responseJson.data;
+        //console.log(responseJson["bpi"]["USD"].rate_float);
+        this.setState({ price: responseJson.bpi.USD.rate_float });
       })
       .catch(error => {
         console.error(error);
@@ -151,7 +155,6 @@ class App extends Component {
 
         <div className="priceView">
           <h1>Current BTC Price: {this.state.price}</h1>
-          {console.log(this.getMoviesFromApiAsync())}
           {this.formInput()}
         </div>
       </div>
