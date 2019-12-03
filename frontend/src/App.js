@@ -7,12 +7,13 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 class App extends Component {
   state = {
     price: "",
     priceInput: "",
-    loginStatus: "Login/Logout",
+    loginStatus: "",
     signUpStatus: "Sign Up"
   };
 
@@ -91,13 +92,24 @@ class App extends Component {
       .catch(error => {
         console.error(error);
       });
+
+    let token = localStorage.getItem("jwtToken");
+
+    if (token) {
+      const decoded = jwt_decode(token);
+      if (decoded) {
+        this.setState({ loginStatus: "Logout", signUpStatus: "" });
+      }
+    } else {
+      this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
+    }
   };
 
   setLoginStatus = loggedIn => {
     if (loggedIn) {
-      //this.setState({ loginStatus: "Logout", signUpStatus: "Sign Up" });
+      this.setState({ loginStatus: "Logout", signUpStatus: "" });
     } else {
-      //this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
+      this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
     }
   };
 

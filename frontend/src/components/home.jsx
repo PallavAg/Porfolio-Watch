@@ -28,8 +28,6 @@ class Home extends Component {
         loading: false,
         loggedIn: false
       });
-      //this.state.onToggleLogin(this.state.loggedIn);
-      console.log("1");
     } else if (this.state.loading) {
       try {
         const response = await axios.get("/api/protected", {
@@ -43,7 +41,6 @@ class Home extends Component {
           msg: response.data.msg
         });
         this.state.onToggleLogin(this.state.loggedIn);
-        console.log("2");
       } catch (error) {
         console.log(error);
         this.setState({
@@ -52,8 +49,6 @@ class Home extends Component {
           user: jwt_decode(token, { header: true }),
           msg: "The protected route failed :( Check console for errors"
         });
-        //this.state.onToggleLogin(this.state.loggedIn);
-        console.log("3");
       }
     }
   }
@@ -62,8 +57,7 @@ class Home extends Component {
     e.preventDefault();
     localStorage.removeItem("jwtToken");
     this.setState({ loggedIn: false });
-    this.state.onToggleLogin(this.state.loggedIn);
-    console.log("4");
+    this.state.onToggleLogin(!this.state.loggedIn);
   };
 
   render() {
