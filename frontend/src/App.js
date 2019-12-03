@@ -85,9 +85,7 @@ class App extends Component {
     await axios
       .get("https://api.coindesk.com/v1/bpi/currentprice.json")
       .then(responseJson => {
-        //console.log(responseJson);
         responseJson = responseJson.data;
-        //console.log(responseJson["bpi"]["USD"].rate_float);
         this.setState({ price: responseJson.bpi.USD.rate });
       })
       .catch(error => {
