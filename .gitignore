@@ -184,3 +184,4 @@ frontend/.idea
 /.idea
 /.env
 backend/.env
+package-lock.json
