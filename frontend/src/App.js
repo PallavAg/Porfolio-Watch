@@ -42,10 +42,10 @@ class App extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"></Nav>
           <Nav>
-            <Nav.Link className="tempWhite" href="/">
+            {/* <Nav.Link className="tempWhite" href="/">
               Home
-            </Nav.Link>
-            <Nav.Link href="#orders">Orders</Nav.Link>
+            </Nav.Link> */}
+            {/* <Nav.Link href="#orders">Orders</Nav.Link> */}
             <Nav.Link href="/home">{this.state.loginStatus}</Nav.Link>
             <Nav.Link href="/register">{this.state.signUpStatus}</Nav.Link>
           </Nav>
