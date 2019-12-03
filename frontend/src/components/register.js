@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class Home extends Component {
     event.preventDefault();
     this.setState({ loading: true });
 
-    if (this.state.password != this.state.password2) {
+    if (this.state.password !== this.state.password2) {
       this.setState({ loading: false, msg: "Passwords don't match" });
     } else {
       let userData = {
@@ -52,7 +52,7 @@ class Home extends Component {
       };
 
       try {
-        const res = await axios.post("/api/register", userData);
+        await axios.post("/api/register", userData);
 
         this.setState({ loading: false, msg: "Registration Successful." });
       } catch (err) {

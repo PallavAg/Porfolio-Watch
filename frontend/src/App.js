@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, Nav, Container, Card, Button } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -7,8 +7,6 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
 import axios from "axios";
-
-import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
   state = {
@@ -90,7 +88,7 @@ class App extends Component {
         //console.log(responseJson);
         responseJson = responseJson.data;
         //console.log(responseJson["bpi"]["USD"].rate_float);
-        this.setState({ price: responseJson.bpi.USD.rate_float });
+        this.setState({ price: responseJson.bpi.USD.rate });
       })
       .catch(error => {
         console.error(error);
@@ -119,24 +117,7 @@ class App extends Component {
             <Route path="/home">
               <Home onToggleLogin={this.setLoginStatus} />
             </Route>
-            <Route path="/">
-              {/* <Container>
-                <Card>
-                  <Card.Body>
-                    <LinkContainer to="/login">
-                      <Button variant="primary" size="lg" block>
-                        Login
-                      </Button>
-                    </LinkContainer>
-                    <LinkContainer to="/register">
-                      <Button variant="primary" size="lg" block>
-                        Register
-                      </Button>
-                    </LinkContainer>
-                  </Card.Body>
-                </Card>
-              </Container> */}
-            </Route>
+            <Route path="/"></Route>
           </Switch>
         </div>
       </Router>
@@ -154,7 +135,7 @@ class App extends Component {
         </header>
 
         <div className="priceView">
-          <h1>Current BTC Price: {this.state.price}</h1>
+          <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
           {this.formInput()}
         </div>
       </div>
