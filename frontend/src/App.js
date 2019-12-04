@@ -8,9 +8,11 @@ import Register from "./components/register";
 import Home from "./components/home";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+// import OrderList from "./components/OrdersList";
 
 class App extends Component {
   state = {
+    // orders: [],
     price: "",
     priceInput: "",
     loginStatus: "",
@@ -25,6 +27,16 @@ class App extends Component {
     let thePrice = this.state.priceInput;
     if (!isNaN(thePrice) && thePrice.length !== 0) {
       alert("Successfully placed order of $" + thePrice + " BTC!");
+
+      // let order = {
+      //   title: "Buy",
+      //   price: thePrice
+      // };
+
+      // let { orders } = this.state;
+      // orders.push(order);
+      // console.log(this.state.orders);
+      // this.setState({ orders: orders, priceInput: "" });
     } else {
       alert("Please enter a number!");
     }
@@ -94,7 +106,7 @@ class App extends Component {
       });
 
     let token = localStorage.getItem("jwtToken");
-
+    // console.log(this.state.orders);
     if (token) {
       const decoded = jwt_decode(token);
       if (decoded) {
@@ -148,6 +160,9 @@ class App extends Component {
           <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
           {this.formInput()}
         </div>
+        {/* <div className="OrderTable">
+          <OrderList orders={this.state.orders}></OrderList>
+        </div> */}
       </div>
     );
   }
