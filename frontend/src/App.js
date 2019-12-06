@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import "./App.css";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-// import OrderList from "./components/OrdersList";
+import OrderList from "./components/OrdersList";
+import Counters from "./components/counters";
 
 class App extends Component {
   state = {
-    // orders: [],
+    orders: [
+      { title: "Buy", price: "$5" },
+      { title: "Sell", price: "$10" },
+      { title: "Buy", price: "$50" }
+    ],
     price: "",
     priceInput: "",
     loginStatus: "",
@@ -28,15 +33,15 @@ class App extends Component {
     if (!isNaN(thePrice) && thePrice.length !== 0) {
       alert("Successfully placed order of $" + thePrice + " BTC!");
 
-      // let order = {
-      //   title: "Buy",
-      //   price: thePrice
-      // };
+      let order = {
+        title: "Buy",
+        price: thePrice
+      };
 
-      // let { orders } = this.state;
-      // orders.push(order);
-      // console.log(this.state.orders);
-      // this.setState({ orders: orders, priceInput: "" });
+      let { orders } = this.state;
+      orders.push(order);
+      console.log(this.state.orders);
+      this.setState({ orders: orders, priceInput: "" });
     } else {
       alert("Please enter a number!");
     }
@@ -57,7 +62,15 @@ class App extends Component {
             {/* <Nav.Link className="tempWhite" href="/">
               Home
             </Nav.Link> */}
-            {/* <Nav.Link href="#orders">Orders</Nav.Link> */}
+
+            <Link to="/">HOME</Link>
+            <Link to="/orders">Orders</Link>
+            <Link to="/login">{this.state.loginStatus}</Link>
+            <Link to="/home">LOGOUT</Link>
+            <Link to="/register">{this.state.signUpStatus}</Link>
+
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/orders">Orders</Nav.Link>
             <Nav.Link href="/home">{this.state.loginStatus}</Nav.Link>
             <Nav.Link href="/register">{this.state.signUpStatus}</Nav.Link>
           </Nav>
@@ -148,22 +161,41 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        {this.navbar()}
-        {this.registerRoutes()}
-        <header className="header">
-          <h1 className="">Crypto Watch</h1>
-          <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
-        </header>
+      <Router>
+        <Switch>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/orders">
+            <div className="OrderTable App">
+              {this.navbar()}
+              {/* <Counters /> */}
+              <OrderList orders={this.state.orders}></OrderList>
+            </div>
+          </Route>
+          <Route path="/">
+            <div className="App">
+              {this.navbar()}
+              {this.registerRoutes()}
+              <header className="header">
+                <h1 className="">Crypto Watch</h1>
+                <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
+              </header>
 
-        <div className="priceView">
-          <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
-          {this.formInput()}
-        </div>
-        {/* <div className="OrderTable">
+              <div className="priceView">
+                <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
+                {this.formInput()}
+              </div>
+              {/* <div className="OrderTable">
           <OrderList orders={this.state.orders}></OrderList>
         </div> */}
-      </div>
+            </div>
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }
