@@ -275,7 +275,7 @@ class Home extends Component {
               <div className="OrderTable App">
                 {this.navbar()}
                 <h1 className="portfolio">Investing in BTC: ${this.state.invest}</h1>
-                <OrderList orders={this.state.orders}></OrderList>
+                <OrderList loggedIn={this.state.loggedIn} orders={this.state.orders} />
               </div>
             </Route>
             <Route path="/">
@@ -285,6 +285,7 @@ class Home extends Component {
                 <h1 className="">Crypto Watch</h1>
                 <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
               </header>
+
               <div className="priceView">
                 <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
                 {this.formInput()}
