@@ -7,19 +7,17 @@ import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect, Link, withRouter } from "react-router-dom";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    const { onToggleLogin } = props;
     this.state = {
       email: "",
       password: "",
       loading: false,
       loggedIn: false,
-      error: "",
-      onToggleLogin
+      error: ""
     };
   }
   componentDidMount() {
@@ -54,9 +52,8 @@ class Login extends React.Component {
       localStorage.setItem("jwtToken", token);
 
       this.setState({ loading: false, loggedIn: true });
-      this.state.onToggleLogin(this.state.loggedIn);
+      this.props.onToggleLogin(this.state.loggedIn);
       console.log("10");
-      alert("Logged In Successfully!");
     } catch (err) {
       console.log(err);
       this.setState({ loading: false, error: "Login Failed" });
@@ -64,6 +61,8 @@ class Login extends React.Component {
   };
 
   render() {
+    console.log(this.props);
+
     if (this.state.loggedIn === true) {
       return <Redirect to="/" />;
     }
@@ -116,4 +115,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

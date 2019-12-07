@@ -1,12 +1,9 @@
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 
 import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Redirect } from "react-router-dom";
 
 import { Navbar, Nav } from "react-bootstrap";
 import "../App.css";
@@ -20,22 +17,25 @@ import OrderList from "./OrdersList";
 class Home extends Component {
   constructor(props) {
     super(props);
-    const { onToggleLogin } = props;
+    this.setLoginStatus = this.setLoginStatus.bind(this);
     this.state = {
       loading: true,
       user: null,
       loggedIn: false,
       msg: "",
-      onToggleLogin,
       orders: [
-        { title: "Buy", price: "$5" },
-        { title: "Sell", price: "$10" },
-        { title: "Buy", price: "$50" }
+        { title: "$5", price: "SELL" },
+        { title: "$50", price: "BUY" },
+        { title: "$200", price: "SELL" },
+        { title: "$20", price: "BUY" },
+        { title: "$100", price: "BUY" },
+        { title: "$150", price: "BUY" }
       ],
       price: "",
       priceInput: "",
       loginStatus: "",
-      signUpStatus: "Sign Up"
+      signUpStatus: "Sign Up",
+      invest: "115"
     };
   }
 
@@ -44,7 +44,8 @@ class Home extends Component {
     if (!token) {
       this.setState({
         loading: false,
-        loggedIn: false
+        loggedIn: false,
+        signUpStatus: "Sign Up"
       });
     } else if (this.state.loading) {
       try {
@@ -55,6 +56,7 @@ class Home extends Component {
         this.setState({
           loading: false,
           loggedIn: true,
+          signUpStatus: "",
           user: jwt_decode(token, { header: true }),
           msg: response.data.msg
         });
@@ -65,18 +67,28 @@ class Home extends Component {
           loading: false,
           loggedIn: true,
           user: jwt_decode(token, { header: true }),
-          msg: "The protected route failed :( Check console for errors"
+          msg: "The protected route failed :( Check console for errors",
+          signUpStatus: ""
         });
       }
     }
+
+    await axios
+      .get("https://api.coindesk.com/v1/bpi/currentprice.json")
+      .then(responseJson => {
+        responseJson = responseJson.data;
+        this.setState({ price: responseJson.bpi.USD.rate });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   logout = e => {
-    if (loggedIn) {
-      console.log("LOGGING OUT");
+    if (this.state.loggedIn) {
       e.preventDefault();
       localStorage.removeItem("jwtToken");
-      this.setState({ loggedIn: false });
+      this.setState({ loggedIn: false, signUpStatus: "Sign Up" });
       // this.state.onToggleLogin(!this.state.loggedIn);
     }
   };
@@ -91,22 +103,71 @@ class Home extends Component {
       alert("Successfully placed order of $" + thePrice + " BTC!");
 
       let order = {
-        title: "Buy",
-        price: thePrice
+        title: "$" + thePrice,
+        price: "BUY"
       };
 
       let { orders } = this.state;
-      orders.push(order);
-      console.log(this.state.orders);
-      this.setState({ orders: orders, priceInput: "" });
+      orders.unshift(order);
+
+      let currVal = parseInt(this.state.invest);
+      currVal += parseInt(thePrice);
+      currVal = currVal.toString();
+      this.setState({ orders: orders, priceInput: "", invest: currVal });
     } else {
       alert("Please enter a number!");
     }
   };
 
-  placeSell = () => {};
+  placeSell = () => {
+    let thePrice = this.state.priceInput;
+    if (!isNaN(thePrice) && thePrice.length !== 0) {
+      alert("Successfully placed order of $" + thePrice + " BTC!");
+
+      let order = {
+        title: "$" + thePrice,
+        price: "SELL"
+      };
+
+      let { orders } = this.state;
+      orders.unshift(order);
+
+      let currVal = parseInt(this.state.invest);
+      currVal -= parseInt(thePrice);
+      currVal = currVal.toString();
+      this.setState({ orders: orders, priceInput: "", invest: currVal });
+    } else {
+      alert("Please enter a number!");
+    }
+  };
 
   navbar = () => {
+    let loginLink;
+    if (this.state.loggedIn) {
+      loginLink = (
+        <Link to="/" onClick={this.logout}>
+          <Button variant="outline-light" className="navbtnn">
+            Logout
+          </Button>
+        </Link>
+      );
+    } else {
+      loginLink = (
+        <React.Fragment>
+          <Link to="/login">
+            <Button variant="outline-light" className="navbtnn">
+              Login
+            </Button>
+          </Link>
+          <Link to="/register">
+            <Button variant="outline-light" className="navbtnn">
+              {this.state.signUpStatus}
+            </Button>
+          </Link>
+        </React.Fragment>
+      );
+    }
+
     return (
       <Navbar sticky="top" className="theNav" variant="dark" expand="lg">
         <Navbar.Brand className="navbar-brand mb-0 h1" href="#home">
@@ -116,23 +177,17 @@ class Home extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"></Nav>
           <Nav>
-            {/* <Nav.Link className="tempWhite" href="/">
-              Home
-            </Nav.Link> */}
-
-            <Link to="/"> HOME </Link>
-            <Link to="/orders"> Orders </Link>
-            {/* <Link to="/login">{this.state.loginStatus}</Link> */}
-            <Link to="/login"> Login </Link>
-            <Link to="/home" onClick={this.logout}>
-              LOGOUT
+            <Link to="/">
+              <Button variant="outline-light" className="navbtnn">
+                Home
+              </Button>
             </Link>
-            <Link to="/register"> {this.state.signUpStatus} </Link>
-
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/orders">Orders</Nav.Link>
-            <Nav.Link href="/home">{this.state.loginStatus}</Nav.Link>
-            <Nav.Link href="/register">{this.state.signUpStatus}</Nav.Link>
+            <Link to="/orders">
+              <Button variant="outline-light" className="navbtnn">
+                Orders
+              </Button>
+            </Link>
+            {loginLink}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -153,44 +208,22 @@ class Home extends Component {
         <input
           onClick={this.placeBuy}
           className="btn btn-primary placeOrder btn-sm"
-          type="submit"
+          type="button"
           value="Store Buy Order"
         />
         &nbsp;&nbsp;
         <input
-          onClick={this.placeBuy}
+          onClick={this.placeSell}
           className="btn btn-primary placeOrder btn-sm"
-          type="submit"
+          type="button"
           value="Store Sell Order"
         />
       </form>
     );
   };
 
-  // componentDidMount = async () => {
-  //   await axios
-  //     .get("https://api.coindesk.com/v1/bpi/currentprice.json")
-  //     .then(responseJson => {
-  //       responseJson = responseJson.data;
-  //       this.setState({ price: responseJson.bpi.USD.rate });
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-
-  //   let token = localStorage.getItem("jwtToken");
-  //   // console.log(this.state.orders);
-  //   if (token) {
-  //     const decoded = jwt_decode(token);
-  //     if (decoded) {
-  //       this.setState({ loginStatus: "Logout", signUpStatus: "" });
-  //     }
-  //   } else {
-  //     this.setState({ loginStatus: "Login", signUpStatus: "Sign Up" });
-  //   }
-  // };
-
   setLoginStatus = loggedIn => {
+    this.setState({ loggedIn: loggedIn });
     if (loggedIn) {
       this.setState({ loginStatus: "Logout", signUpStatus: "" });
     } else {
@@ -209,7 +242,7 @@ class Home extends Component {
             <Register />
           </Route>
           <Route path="/home">
-            <Home onToggleLogin={this.setLoginStatus} />
+            <Home />
           </Route>
           <Route path="/"></Route>
         </Switch>
@@ -227,55 +260,39 @@ class Home extends Component {
     }
 
     return (
-      <Router>
-        <Switch>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/orders">
-            <div className="OrderTable App">
+      <div className="App">
+        <Router>
+          <Switch>
+            <Route path="/register">
               {this.navbar()}
-              {/* <Counters /> */}
-              <OrderList orders={this.state.orders}></OrderList>
-            </div>
-          </Route>
-          <Route path="/">
-            <div className="App">
-              {/* <div>
-                <Container>
-                  <Card>
-                    <Card.Body>{this.state.msg}</Card.Body>
-                    <Button variant="primary" type="submit" href="/">
-                      Cancel
-                    </Button>
-                    <Button variant="danger" type="submit" onClick={this.logout}>
-                      Logout
-                    </Button>
-                  </Card>
-                </Container>
-              </div> */}
-
+              <Register />
+            </Route>
+            <Route path="/login">
+              {this.navbar()}
+              <Login onToggleLogin={this.setLoginStatus} />
+            </Route>
+            <Route path="/orders">
+              <div className="OrderTable App">
+                {this.navbar()}
+                <h1 className="portfolio">Investing in BTC: ${this.state.invest}</h1>
+                <OrderList orders={this.state.orders}></OrderList>
+              </div>
+            </Route>
+            <Route path="/">
               {this.navbar()}
               {this.registerRoutes()}
               <header className="header">
                 <h1 className="">Crypto Watch</h1>
                 <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
               </header>
-
               <div className="priceView">
                 <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
                 {this.formInput()}
               </div>
-              {/* <div className="OrderTable">
-          <OrderList orders={this.state.orders}></OrderList>
-        </div> */}
-            </div>
-          </Route>
-        </Switch>
-      </Router>
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }

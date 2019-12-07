@@ -9,7 +9,6 @@ import Home from "./components/home";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import OrderList from "./components/OrdersList";
-import Counters from "./components/counters";
 
 class App extends Component {
   state = {

@@ -8,13 +8,13 @@ class Order extends Component {
 
   render() {
     let { order } = this.props;
-    let cardClass = "card";
+    let cardClass = "shadow rounded-20 orderList card text-white bg-dark mb-3 rounded-2";
 
     return (
       <div className={cardClass}>
+        <div className=" card-header border-primary">{order.title}</div>
         <div className="card-body">
-          <h5 className="card-title">{order.price}</h5>
-          <p className="card-text">{order.title}</p>
+          <p className="card-text">{order.price}</p>
         </div>
       </div>
     );

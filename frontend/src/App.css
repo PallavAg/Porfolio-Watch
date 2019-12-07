@@ -78,10 +78,36 @@ html {
 .placeOrder {
   font-size: 1em;
   margin-bottom: 5%;
+  width: 48%;
 }
 
 .divider {
   width: 5px;
   height: auto;
   display: inline-block;
+}
+
+.navbtnn {
+  margin: 5px;
+}
+
+.card {
+  margin: 5px;
+  padding: 5px;
+  font-size: 1.2em;
+  border-radius: 20px !important;
+}
+
+.card-header {
+  font-size: 1.3em;
+  font-weight: bolder;
+  border-radius: 20px !important;
+  box-shadow: #09d3ac;
+}
+
+.portfolio {
+  color: white;
+  font-weight: lighter;
+  text-align: center;
+  font-size: 3em;
 }
