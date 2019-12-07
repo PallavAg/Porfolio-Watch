@@ -60,7 +60,6 @@ class Home extends Component {
           user: jwt_decode(token, { header: true }),
           msg: response.data.msg
         });
-        // this.state.onToggleLogin(this.state.loggedIn);
       } catch (error) {
         console.log(error);
         this.setState({
@@ -89,7 +88,6 @@ class Home extends Component {
       e.preventDefault();
       localStorage.removeItem("jwtToken");
       this.setState({ loggedIn: false, signUpStatus: "Sign Up" });
-      // this.state.onToggleLogin(!this.state.loggedIn);
     }
   };
 
@@ -251,10 +249,6 @@ class Home extends Component {
   };
 
   render() {
-    if (!this.state.loading && !this.state.loggedIn) {
-      //return <Redirect to="/login" />;
-    }
-
     if (this.state.loading) {
       return <Spinner as="span" size="lg" role="status" aria-hidden="true" />;
     }
@@ -285,7 +279,6 @@ class Home extends Component {
                 <h1 className="">Crypto Watch</h1>
                 <img src={"https://bit.ly/2NAyCIX"} className="HeaderImg" alt="Header" />
               </header>
-
               <div className="priceView">
                 <h1>Current BTC Price: ${this.state.price.substring(0, this.state.price.indexOf("."))}</h1>
                 {this.formInput()}

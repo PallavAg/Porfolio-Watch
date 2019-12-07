@@ -5,7 +5,6 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/home";
-//import Counters from "./components/counters";
 
 ReactDOM.render(<Home />, document.getElementById("root"));
 
